@@ -55,7 +55,8 @@ const RecommendationsPage = () => {
     }
 
     try {
-      const url = `/api/recommendations?startDate=${startDate}&endDate=${endDate}&minOccupancy=${minOccupancy}&preferences=${encodeURIComponent(preferences)}`;
+      const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const url = `${api_url}/api/recommendations?startDate=${startDate}&endDate=${endDate}&minOccupancy=${minOccupancy}&preferences=${encodeURIComponent(preferences)}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

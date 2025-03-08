@@ -21,7 +21,8 @@ export default function ManageClients() {
   // Fetch clients function
   const fetchClients = useCallback(async () => {
     try {
-      const response = await fetch("/api/clients", {
+      const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const response = await fetch(`${api_url}/api/clients`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,

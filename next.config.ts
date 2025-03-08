@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*', // Matches requests to /api/*
-        destination: 'http://localhost:8080/api/:path*', // Forwards them to Spring Boot API
+        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/:path*`, // Forwards them to Spring Boot API
       },
     ];
   },

@@ -17,7 +17,8 @@ export default function AdminHome() {
   useEffect(() => {
     const fetchAdminName = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/account", {
+        const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const response = await fetch(`${api_url}/api/account`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },

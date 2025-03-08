@@ -33,7 +33,8 @@ export default function ManageBookings() {
   // Memoized function to fetch bookings
   const fetchBookings = useCallback(async () => {
     try {
-      const response = await fetch("/api/bookings/all", {
+      const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const response = await fetch(`${api_url}/api/bookings/all`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,

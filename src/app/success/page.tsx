@@ -27,7 +27,8 @@ const SuccessContent = () => {
 
     const fetchSessionDetails = async () => {
       try {
-        const response = await fetch(`/api/stripe/get-session?session_id=${session_id}`);
+        const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const response = await fetch(`${api_url}/api/stripe/get-session?session_id=${session_id}`);
         if (!response.ok) throw new Error("Failed to retrieve session details.");
         const data = await response.json();
         setSessionDetails(data);

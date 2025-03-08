@@ -47,7 +47,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   
       if (token && !isTokenExpired(token)) {
         try {
-          const response = await fetch("/api/auth/validate-token", {
+          const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+          const response = await fetch(`${api_url}/api/auth/validate-token`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

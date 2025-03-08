@@ -19,7 +19,7 @@ export default function AccountPage() {
           throw new Error("Please log in to view account details.");
         }
 
-        const response = await fetch("http://localhost:8080/api/account", {
+        const response = await fetch("/api/account", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,7 +60,8 @@ export default function AccountPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/account", {
+      const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const response = await fetch(`${api_url}/api/account`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

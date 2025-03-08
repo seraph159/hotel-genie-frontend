@@ -1,8 +1,9 @@
 // @/lib/api.tsx
+const api_url = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const fetchRooms = async (startDate: string, endDate: string, minOccupancy: number) => {
     const response = await fetch(
-      `/api/main/available-rooms?startDate=${startDate}&endDate=${endDate}&minOccupancy=${minOccupancy}`
+      `${api_url}/api/main/available-rooms?startDate=${startDate}&endDate=${endDate}&minOccupancy=${minOccupancy}`
     );
     if (!response.ok) throw new Error("Failed to fetch available rooms.");
     return response.json();
@@ -10,7 +11,7 @@ export const fetchRooms = async (startDate: string, endDate: string, minOccupanc
   
   export const createBooking = async (roomNr: string, startDate: string, endDate: string, accessToken: string) => {
     const booking = { id: { startDate, roomNr }, price: 100, room: { roomNr }, endDate };
-    const response = await fetch("/api/bookings", {
+    const response = await fetch(`${api_url}/api/bookings`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
       body: JSON.stringify(booking),
@@ -32,7 +33,7 @@ export const fetchRooms = async (startDate: string, endDate: string, minOccupanc
   };
   
   export const deleteBooking = async (roomNr: string, startDate: string, accessToken: string) => {
-    const response = await fetch(`/api/bookings/${startDate}/${roomNr}`, {
+    const response = await fetch(`${api_url}/api/bookings/${startDate}/${roomNr}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${accessToken}` },
     });
@@ -41,7 +42,7 @@ export const fetchRooms = async (startDate: string, endDate: string, minOccupanc
   
   export const fetchBookings = async (accessToken: string) => {
     try {
-      const response = await fetch('/api/bookings', {
+      const response = await fetch(`${api_url}/api/bookings`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}`,
