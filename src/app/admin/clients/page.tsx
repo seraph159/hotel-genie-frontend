@@ -7,9 +7,10 @@ import { motion } from "framer-motion";
 interface Client {
   email: string;
   name: string;
+  password?: string;
   role: string;
   phone?: string;
-  paymentType?: string;
+  paymentType?: string | null;
 }
 
 export default function ManageClients() {
@@ -76,10 +77,16 @@ export default function ManageClients() {
       setError("Please enter a valid phone number (7-15 digits).");
       return;
     }
+    // Password validation only when adding new client
+    if (!editingClient && (!form.password || form.password.length < 6)) {
+      setError("Password is required and must be at least 6 characters long.");
+      return;
+    }
 
     form.role = "CLIENT"; // Hardcoded role
+    form.paymentType = form.paymentType || null; // Convert empty string to null
 
-    const url = editingClient ? `/api/clients/${editingClient.email}` : "/api/clients"; // Adjusted URL for PUT
+    const url = editingClient ? `/api/clients/${editingClient.email}` : "/api/clients";
     const method = editingClient ? "PUT" : "POST";
 
     try {
@@ -92,6 +99,8 @@ export default function ManageClients() {
         body: JSON.stringify(form),
       });
       if (!response.ok) throw new Error(`Failed to ${editingClient ? "update" : "add"} client`);
+      const successMessage = await response.text();
+      alert(successMessage);
       setForm({});
       setEditingClient(null);
       fetchClients();
@@ -153,7 +162,7 @@ export default function ManageClients() {
               placeholder="client@example.com"
               className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
               required
-              disabled={!!editingClient} // Email as unique identifier
+              disabled={!!editingClient}
             />
           </div>
           <div>
@@ -168,6 +177,20 @@ export default function ManageClients() {
               required
             />
           </div>
+          {!editingClient && ( // Show password field only when adding new client
+            <div>
+              <label className="block mb-1 font-medium text-gray-700">Password</label>
+              <input
+                name="password"
+                type="password"
+                value={form.password || ""}
+                onChange={handleInputChange}
+                placeholder="Enter password"
+                className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                required
+              />
+            </div>
+          )}
           <div>
             <label className="block mb-1 font-medium text-gray-700">Phone</label>
             <input
@@ -179,7 +202,6 @@ export default function ManageClients() {
               className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
             />
           </div>
-          {/* Uncommented paymentType field */}
           <div>
             <label className="block mb-1 font-medium text-gray-700">Payment Type</label>
             <select
@@ -190,8 +212,7 @@ export default function ManageClients() {
             >
               <option value="">Select Payment Type (Optional)</option>
               <option value="CREDIT_CARD">Credit Card</option>
-              <option value="PAYPAL">PayPal</option>
-              <option value="BANK_TRANSFER">Bank Transfer</option>
+              <option value="BANK_ACCOUNT">Bank Transfer</option>
             </select>
           </div>
           <div className="md:col-span-2 flex gap-4">
