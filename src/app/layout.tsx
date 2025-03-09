@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import "./globals.css";
 import { FaHome, FaRobot, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaUser, FaTachometerAlt, FaHotel, FaBars } from "react-icons/fa";
 import { useState } from "react";
+import Image from 'next/image';
 
 export default function RootLayout({
   children,
@@ -36,7 +37,12 @@ function Header() {
     <header className="bg-blue-600 text-white p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-lg sticky top-0 z-10">
       <div className="flex justify-between w-full sm:w-auto items-center">
         <h1 className="text-lg sm:text-xl font-bold flex items-center gap-2 transition-transform hover:scale-105">
-          <FaHotel className="text-xl sm:text-2xl" />
+        <Image
+          src="/icon.svg"
+          alt="HotelGenie Logo"
+          width={40} // Set width in pixels
+          height={40} // Set height in pixels
+        />
           HotelGenie
         </h1>
         <button 
