@@ -7,7 +7,8 @@ import { motion } from "framer-motion";
 interface Client {
   email: string;
   name: string;
-  phone: string;
+  role: string;
+  phone?: string;
   paymentType?: string;
 }
 
@@ -75,6 +76,8 @@ export default function ManageClients() {
       setError("Please enter a valid phone number (7-15 digits).");
       return;
     }
+
+    form.role = "CLIENT"; // Hardcoded role
 
     const url = editingClient ? `/api/clients/${editingClient.email}` : "/api/clients"; // Adjusted URL for PUT
     const method = editingClient ? "PUT" : "POST";
